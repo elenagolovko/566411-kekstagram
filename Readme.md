@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Елена Головко](https://up.htmlacademy.ru/javascript/13/user/566411).
-* Наставник: `Неизвестно`.
+* Наставник: Виталий Усик.
 
 ---
 
