@@ -11,7 +11,6 @@ var DESCRIPTIONS_ARR = ['Тестим новую камеру!', 'Затусил
   'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
   'Вот это тачка!'];
 
-var pictures = [];
 var picturesTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture__link');
@@ -25,6 +24,7 @@ var getRandomInt = function (min, max) {
 };
 
 var generatePicturesData = function (photosNumber) {
+  var pictures = [];
   for (var i = 1; i <= photosNumber; i++) {
     pictures.push(
         {
@@ -48,7 +48,7 @@ var renderPictures = function (picture) {
   return pictureElement;
 };
 
-var createPicturesFragment = function () {
+var createPicturesFragment = function (pictures) {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < pictures.length; i++) {
@@ -66,37 +66,37 @@ var hideCountAndLoad = function () {
   loadMeMore.classList.add('visually-hidden');
 };
 
-var makeElement = function (tagName, className, text) {
+var makeText = function (selector, text) {
+  var elements = document.querySelectorAll(selector);
+  for (var i = 2; i < elements.length; i++) {
+    console.log(elements[i]);
+    elements[i].textContent = COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)];
+  }
+  //return elements;
+};
+
+var makeElement = function (tagName, className) {
   var element = document.createElement(tagName);
-  if (className) {
-    element.classList.add(className);
+  if (typeof className === 'object') {
+    for (var i = 0; i < className.length; i++) {
+      element.classList.add(className[i]);
+    }
   }
-  if (text) {
-    element.textContent = text;
-  }
+
   return element;
-}
+};
 
 var initComments = function (picture) {
-
-  var comment = makeElement('li', 'social__comment--text', COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
+  var comment = makeElement('li', ['social__comment', 'social__comment--text']);
   var img = makeElement('img', 'social__picture');
   img.src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
   img.alt = 'Аватар комментатора фотографии';
   img.width = '35';
   img.height = '35';
   comment.appendChild(img);
+  makeText('.social__comment', COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
 
   return comment;
-
-  // var comments = bigPicture.querySelectorAll('.social__comment');
-  // for (var i = 0; i < comments.length; i++) {
-  //   var photo = comments[i].querySelector('.social__picture');
-  //   photo.src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
-  //   console.log(comments[i].textContent);
-  //   comments[i].textContent = COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)];
-  //   console.log(comments[i].textContent);
-  // }
 };
 
 var initBigPicture = function (picture) {
@@ -106,13 +106,14 @@ var initBigPicture = function (picture) {
   var commentsList = document.querySelector('.social__comments');
   for (var i = 0; i < picture.comments; i++) {
     var bigPictureComments = initComments(picture);
+    //makeText('.social__comment', COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
     commentsList.appendChild(bigPictureComments);
   }
 };
 
 var initPictures = function () {
-  generatePicturesData(PICTURES_SIZE);
-  createPicturesFragment();
+  var pictures = generatePicturesData(PICTURES_SIZE);
+  createPicturesFragment(pictures);
   showPhoto();
   initBigPicture(pictures[BIG_PICTURE_INDEX]);
   hideCountAndLoad();
