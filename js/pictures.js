@@ -62,25 +62,52 @@ var showPhoto = function () {
 };
 
 var hideCountAndLoad = function () {
-  commentCount.classList.add('.visually-hidden');
-  loadMeMore.classList.add('.visually-hidden');
+  commentCount.classList.add('visually-hidden');
+  loadMeMore.classList.add('visually-hidden');
 };
 
-var initComments = function () {
-  var comments = bigPicture.querySelectorAll('.social__comment');
-  for (var i = 0; i < comments.length; i++) {
-    var photo = comments[i].querySelector('.social__picture');
-    photo.src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
-
-    comments[i].textContent = COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)];
+var makeElement = function (tagName, className, text) {
+  var element = document.createElement(tagName);
+  if (className) {
+    element.classList.add(className);
   }
+  if (text) {
+    element.textContent = text;
+  }
+  return element;
+}
+
+var initComments = function (picture) {
+
+  var comment = makeElement('li', 'social__comment--text', COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
+  var img = makeElement('img', 'social__picture');
+  img.src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
+  img.alt = 'Аватар комментатора фотографии';
+  img.width = '35';
+  img.height = '35';
+  comment.appendChild(img);
+
+  return comment;
+
+  // var comments = bigPicture.querySelectorAll('.social__comment');
+  // for (var i = 0; i < comments.length; i++) {
+  //   var photo = comments[i].querySelector('.social__picture');
+  //   photo.src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
+  //   console.log(comments[i].textContent);
+  //   comments[i].textContent = COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)];
+  //   console.log(comments[i].textContent);
+  // }
 };
 
 var initBigPicture = function (picture) {
   bigPicture.querySelector('.big-picture__img img').src = picture.url;
   bigPicture.querySelector('.likes-count').textContent = picture.likes;
   bigPicture.querySelector('.comments-count').textContent = picture.comments;
-  initComments();
+  var commentsList = document.querySelector('.social__comments');
+  for (var i = 0; i < picture.comments; i++) {
+    var bigPictureComments = initComments(picture);
+    commentsList.appendChild(bigPictureComments);
+  }
 };
 
 var initPictures = function () {
