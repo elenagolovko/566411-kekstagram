@@ -66,35 +66,32 @@ var hideCountAndLoad = function () {
   loadMeMore.classList.add('visually-hidden');
 };
 
-var makeText = function (selector, text) {
-  var elements = document.querySelectorAll(selector);
-  for (var i = 2; i < elements.length; i++) {
-    console.log(elements[i]);
-    elements[i].textContent = COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)];
-  }
-  //return elements;
-};
-
-var makeElement = function (tagName, className) {
+var makeElement = function (tagName, className, text) {
   var element = document.createElement(tagName);
   if (typeof className === 'object') {
     for (var i = 0; i < className.length; i++) {
       element.classList.add(className[i]);
     }
+  } else {
+    element.classList.add(className);
+  }
+  if (text) {
+    element.textContent = text;
   }
 
   return element;
 };
 
-var initComments = function (picture) {
-  var comment = makeElement('li', ['social__comment', 'social__comment--text']);
+var initComments = function (picture, text) {
   var img = makeElement('img', 'social__picture');
   img.src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
   img.alt = 'Аватар комментатора фотографии';
   img.width = '35';
   img.height = '35';
+
+  var comment = makeElement('li', ['social__comment', 'social__comment--text']);
   comment.appendChild(img);
-  makeText('.social__comment', COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
+  comment.appendChild(document.createTextNode(text));
 
   return comment;
 };
@@ -105,8 +102,7 @@ var initBigPicture = function (picture) {
   bigPicture.querySelector('.comments-count').textContent = picture.comments;
   var commentsList = document.querySelector('.social__comments');
   for (var i = 0; i < picture.comments; i++) {
-    var bigPictureComments = initComments(picture);
-    //makeText('.social__comment', COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
+    var bigPictureComments = initComments(picture, COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
     commentsList.appendChild(bigPictureComments);
   }
 };
