@@ -1,5 +1,7 @@
 'use strict';
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var PICTURES_SIZE = 25;
 var BIG_PICTURE_INDEX = 0;
 var COMMENTS_ARR = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
@@ -18,6 +20,17 @@ var picturesList = document.querySelector('.pictures');
 var bigPicture = document.querySelector('.big-picture');
 var commentCount = document.querySelector('.social__comment-count');
 var loadMeMore = document.querySelector('.social__comment-loadmore');
+var uploadFile = document.querySelector('#upload-file');
+var uploadImgOverlay = document.querySelector('.img-upload__overlay');
+var closeButton = uploadImgOverlay.querySelector('.cancel');
+var scalePin = uploadImgOverlay.querySelector('.scale__pin');
+var scaleValue = uploadImgOverlay.querySelector('.scale__value');
+var effectCrome = uploadImgOverlay.querySelector('#effect-chrome');
+var effectSepia = uploadImgOverlay.querySelector('#effect-sepia');
+var effectMarvin = uploadImgOverlay.querySelector('#effect-marvin');
+var effectPhobos = uploadImgOverlay.querySelector('#effect-phobos');
+var effectHeat = uploadImgOverlay.querySelector('#effect-heat');
+var imgUploadPreview = uploadImgOverlay.querySelector('.img-upload__preview');
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -107,13 +120,61 @@ var initBigPicture = function (picture) {
   }
 };
 
+var pictureOnClick = function (pictures) {
+  document.addEventListener('click', function (evt) {
+    if (evt.target.className === 'picture__img') {
+      initBigPicture(pictures[BIG_PICTURE_INDEX]);
+    }
+    showPhoto();
+  });
+};
+
 var initPictures = function () {
   var pictures = generatePicturesData(PICTURES_SIZE);
   createPicturesFragment(pictures);
-  showPhoto();
-  initBigPicture(pictures[BIG_PICTURE_INDEX]);
+  pictureOnClick(pictures);
   hideCountAndLoad();
 };
+
+var onOverlayEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    hideForm();
+  }
+};
+
+var openForm = function () {
+  uploadImgOverlay.classList.remove('hidden');
+  document.addEventListener('keydown', onOverlayEscPress);
+};
+
+var hideForm = function () {
+  uploadImgOverlay.classList.add('hidden');
+  document.removeEventListener('keydown', onOverlayEscPress);
+  uploadFile.value = '';
+};
+
+uploadFile.addEventListener('change', function () {
+  openForm();
+});
+
+closeButton.addEventListener('click', function () {
+  hideForm();
+});
+
+scalePin.addEventListener('mouseup', function () {
+});
+
+var makeEffect = function (effect, filter) {
+  effect.addEventListener('click', function () {
+    imgUploadPreview.style = 'filter:' + filter;
+  });
+};
+
+makeEffect(effectCrome, 'grayscale(1)');
+makeEffect(effectSepia, 'sepia(1)');
+makeEffect(effectMarvin, 'invert(100%)');
+makeEffect(effectPhobos, 'blur(3px)');
+makeEffect(effectHeat, 'brightness(3)');
 
 initPictures();
 
