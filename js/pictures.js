@@ -1,7 +1,6 @@
 'use strict';
 
 var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 var PICTURES_SIZE = 25;
 var BIG_PICTURE_INDEX = 0;
 var COMMENTS_ARR = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
@@ -22,8 +21,6 @@ var commentCount = document.querySelector('.social__comment-count');
 var loadMeMore = document.querySelector('.social__comment-loadmore');
 var uploadFile = document.querySelector('#upload-file');
 var uploadImgOverlay = document.querySelector('.img-upload__overlay');
-var scalePin = uploadImgOverlay.querySelector('.scale__pin');
-var scaleValue = uploadImgOverlay.querySelector('.scale__value');
 var imgUploadPreview = uploadImgOverlay.querySelector('.img-upload__preview');
 var closeUploadBtn = uploadImgOverlay.querySelector('.cancel');
 var closeBigPicture = bigPicture.querySelector('.cancel');
@@ -140,7 +137,7 @@ var initBigPicture = function (picturesData) {
 };
 
 var pictureOnClick = function (picture, pictures) {
-  picture.addEventListener('click', function (evt) {
+  picture.addEventListener('click', function () {
     initBigPictureData(pictures[BIG_PICTURE_INDEX]);
     openBigPicture();
   });
@@ -179,25 +176,25 @@ uploadFile.addEventListener('change', function () {
 var createEffect = function () {
   for (var i = 0; i < effectsItem.length; i++) {
     effectsItem[i].addEventListener('click', function (evt) {
-      switch(evt.target.id) {
+      switch (evt.target.id) {
         case 'effect-none':
           imgUploadPreview.style = 'filter: none';
-        break;
+          break;
         case 'effect-chrome':
           imgUploadPreview.style = 'filter: grayscale(1)';
-        break;
+         break;
         case 'effect-sepia':
           imgUploadPreview.style = 'filter: sepia(1)';
-        break;
+          break;
         case 'effect-marvin':
           imgUploadPreview.style = 'filter: invert(100%)';
-        break;
+          break;
         case 'effect-phobos':
           imgUploadPreview.style = 'filter: blur(3px)';
-        break;
+          break;
         case 'effect-heat':
           imgUploadPreview.style = 'filter: brightness(3)';
-        break;
+          break;
       }
     });
   }
