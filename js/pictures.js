@@ -181,22 +181,22 @@ var createEffect = function () {
     effectsItem[i].addEventListener('click', function (evt) {
       switch(evt.target.id) {
         case 'effect-none':
-        imgUploadPreview.style = 'filter: none';
+          imgUploadPreview.style = 'filter: none';
         break;
         case 'effect-chrome':
-        imgUploadPreview.style = 'filter: grayscale(1)';
+          imgUploadPreview.style = 'filter: grayscale(1)';
         break;
         case 'effect-sepia':
-        imgUploadPreview.style = 'filter: sepia(1)';
+          imgUploadPreview.style = 'filter: sepia(1)';
         break;
         case 'effect-marvin':
-        imgUploadPreview.style = 'filter: invert(100%)';
+          imgUploadPreview.style = 'filter: invert(100%)';
         break;
         case 'effect-phobos':
-        imgUploadPreview.style = 'filter: blur(3px)';
+          imgUploadPreview.style = 'filter: blur(3px)';
         break;
         case 'effect-heat':
-        imgUploadPreview.style = 'filter: brightness(3)';
+          imgUploadPreview.style = 'filter: brightness(3)';
         break;
       }
     });
