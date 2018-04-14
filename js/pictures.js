@@ -2,7 +2,6 @@
 
 var ESC_KEYCODE = 27;
 var PICTURES_SIZE = 25;
-var BIG_PICTURE_INDEX = 0;
 var COMMENTS_ARR = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
@@ -25,6 +24,7 @@ var imgUploadPreview = uploadImgOverlay.querySelector('.img-upload__preview');
 var closeUploadBtn = uploadImgOverlay.querySelector('.cancel');
 var closeBigPicture = bigPicture.querySelector('.cancel');
 var effectsItem = document.querySelectorAll('.effects__item');
+var imgUploadResizeInput = document.querySelector('.img-upload__resize');
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -131,14 +131,15 @@ var initBigPictureData = function (picture) {
 var initBigPicture = function (picturesData) {
   var picturesImg = document.querySelectorAll('.picture__img');
   for (var i = 0; i < picturesImg.length; i++) {
+    var pictureIndex = i;
     var pictureImg = picturesImg[i];
-    pictureOnClick(pictureImg, picturesData);
+    pictureOnClick(pictureImg, picturesData, pictureIndex);
   }
 };
 
-var pictureOnClick = function (picture, pictures) {
+var pictureOnClick = function (picture, pictures, index) {
   picture.addEventListener('click', function () {
-    initBigPictureData(pictures[BIG_PICTURE_INDEX]);
+    initBigPictureData(pictures[index]);
     openBigPicture();
   });
 };
@@ -156,11 +157,16 @@ var onOverlayEscPress = function (evt) {
   }
 };
 
+var resetEffect = function () {
+  imgUploadPreview.style = 'filter: none';
+};
+
 var hideUploadForm = function () {
   uploadFile.value = '';
   uploadImgOverlay.classList.add('hidden');
   closeUploadBtn.removeEventListener('click', hideUploadForm);
   document.removeEventListener('keydown', onOverlayEscPress);
+  resetEffect();
 };
 
 var openUploadForm = function () {
@@ -174,11 +180,12 @@ uploadFile.addEventListener('change', function () {
 });
 
 var createEffect = function () {
+  imgUploadResizeInput.style = 'z-index: 1';
   for (var i = 0; i < effectsItem.length; i++) {
     effectsItem[i].addEventListener('click', function (evt) {
       switch (evt.target.id) {
         case 'effect-none':
-          imgUploadPreview.style = 'filter: none';
+          resetEffect();
           break;
         case 'effect-chrome':
           imgUploadPreview.style = 'filter: grayscale(1)';
