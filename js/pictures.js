@@ -182,7 +182,7 @@ var createEffect = function () {
           break;
         case 'effect-chrome':
           imgUploadPreview.style = 'filter: grayscale(1)';
-         break;
+          break;
         case 'effect-sepia':
           imgUploadPreview.style = 'filter: sepia(1)';
           break;
