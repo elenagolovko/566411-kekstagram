@@ -78,13 +78,7 @@ var openBigPicture = function () {
 };
 
 var resetComments = function () {
-  var allComments = commentsList.children;
-
-  if (allComments.length > 2) {
-    for (var i = 2; i < allComments.length - 1; i++) {
-      commentsList.removeChild(allComments[i]);
-    }
-  }
+  commentsList.textContent = '';
 };
 
 var hideBigPicture = function () {
@@ -115,7 +109,7 @@ var makeElement = function (tagName, className, text) {
   return element;
 };
 
-var initComments = function (picture, text) {
+var initComments = function (text) {
   var img = makeElement('img', 'social__picture');
   img.src = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
   img.alt = 'Аватар комментатора фотографии';
@@ -130,11 +124,12 @@ var initComments = function (picture, text) {
 };
 
 var initBigPictureData = function (picture) {
+  resetComments();
   bigPicture.querySelector('.big-picture__img img').src = picture.url;
   bigPicture.querySelector('.likes-count').textContent = picture.likes;
   bigPicture.querySelector('.comments-count').textContent = picture.comments;
   for (var i = 0; i < picture.comments; i++) {
-    var bigPictureComments = initComments(picture, COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
+    var bigPictureComments = initComments(COMMENTS_ARR[getRandomInt(0, COMMENTS_ARR.length - 1)]);
     commentsList.appendChild(bigPictureComments);
   }
 };
