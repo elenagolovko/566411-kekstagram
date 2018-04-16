@@ -218,7 +218,9 @@ var checkHashtagInput = function (value) {
   var hashtags = value.split(' ');
   var result = [];
   hashtags.forEach(function (hashtag) {
-    if (!/^#{1}\w+/.test(hashtag)) {return;}
+    if (!/^#{1}\w+/.test(hashtag)) {
+      return;
+    }
     result.push(hashtag.toLowerCase());
   });
   return findSimilar(result);
@@ -228,7 +230,7 @@ var onSubmitCheck = function (evt) {
   if (!checkHashtagInput(hashtagInput.value)) {
     evt.preventDefault();
   }
-  //Первый раз не срабатывает почему то
+  // Первый раз не срабатывает почему то
 };
 
 uploadForm.addEventListener('submit', onSubmitCheck);
