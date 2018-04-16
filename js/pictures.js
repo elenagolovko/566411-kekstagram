@@ -26,6 +26,8 @@ var closeBigPicture = bigPicture.querySelector('.cancel');
 var effectsItem = document.querySelectorAll('.effects__item');
 var imgUploadResizeInput = document.querySelector('.img-upload__resize');
 var commentsList = document.querySelector('.social__comments');
+var hashtagInput = document.querySelector('.text__hashtags');
+var uploadForm = document.querySelector('.img-upload__form');
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -158,7 +160,7 @@ var initPictures = function () {
 };
 
 var onOverlayEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE && evt.target !== hashtagInput) {
     hideUploadForm();
   }
 };
@@ -180,6 +182,56 @@ var openUploadForm = function () {
   closeUploadBtn.addEventListener('click', hideUploadForm);
   document.addEventListener('keydown', onOverlayEscPress);
 };
+
+var resetValidationMessage = function () {
+  hashtagInput.setCustomValidity('');
+};
+
+var findSimilar = function (array) {
+  var hashtagsObj = {};
+  for (var i = 0; i < array.length; i++) {
+    var hashtag = array[i];
+    if (hashtag.length > 20) {
+      hashtagInput.setCustomValidity('Слишком много символов в хэштэге!');
+      return false;
+    }
+    if (hashtagsObj[hashtag]) {
+      hashtagInput.setCustomValidity('Этот хэхштэг ты уже использовал!');
+      return false;
+    }
+    hashtagsObj[hashtag] = true;
+  }
+  if (Object.keys(hashtagsObj).length <= 5) {
+    return Object.keys(hashtagsObj);
+  } else {
+    hashtagInput.setCustomValidity('Многовато хэштэгов!');
+    return false;
+  }
+};
+
+hashtagInput.addEventListener('input', resetValidationMessage);
+
+var checkHashtagInput = function (value) {
+  if (value === '') {
+    return true;
+  }
+  var hashtags = value.split(' ');
+  var result = [];
+  hashtags.forEach(function (hashtag) {
+    if (!/^#{1}\w+/.test(hashtag)) {return;}
+    result.push(hashtag.toLowerCase());
+  });
+  return findSimilar(result);
+};
+
+var onSubmitCheck = function (evt) {
+  if (!checkHashtagInput(hashtagInput.value)) {
+    evt.preventDefault();
+  }
+  //Первый раз не срабатывает почему то
+};
+
+uploadForm.addEventListener('submit', onSubmitCheck);
 
 uploadFile.addEventListener('change', function () {
   openUploadForm();
