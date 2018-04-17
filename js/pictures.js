@@ -2,6 +2,8 @@
 
 var ESC_KEYCODE = 27;
 var PICTURES_SIZE = 25;
+var MAX_HASHTAGS_NUMBER = 5;
+var MAX_HASHTAGS_LENGTH = 20;
 var COMMENTS_ARR = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
@@ -26,6 +28,8 @@ var closeBigPicture = bigPicture.querySelector('.cancel');
 var effectsItem = document.querySelectorAll('.effects__item');
 var imgUploadResizeInput = document.querySelector('.img-upload__resize');
 var commentsList = document.querySelector('.social__comments');
+var hashtagInput = document.querySelector('.text__hashtags');
+var uploadForm = document.querySelector('.img-upload__form');
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -158,7 +162,7 @@ var initPictures = function () {
 };
 
 var onOverlayEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE && evt.target !== hashtagInput) {
     hideUploadForm();
   }
 };
@@ -181,9 +185,64 @@ var openUploadForm = function () {
   document.addEventListener('keydown', onOverlayEscPress);
 };
 
-uploadFile.addEventListener('change', function () {
-  openUploadForm();
-});
+var resetValidationMessage = function () {
+  hashtagInput.setCustomValidity('');
+};
+
+var validateHashtags = function (array) {
+  if (array.length > MAX_HASHTAGS_NUMBER) {
+    hashtagInput.setCustomValidity('Многовато хэштэгов!');
+    return false;
+  }
+
+  var hashtagsObj = {};
+
+  for (var i = 0; i < array.length; i++) {
+    var hashtag = array[i];
+
+    if (hashtag.length > MAX_HASHTAGS_LENGTH) {
+      hashtagInput.setCustomValidity('Слишком много символов в хэштэге!');
+      return false;
+    }
+
+    if (hashtagsObj[hashtag]) {
+      hashtagInput.setCustomValidity('Этот хэштэг уже использован!');
+      return false;
+    }
+    hashtagsObj[hashtag] = true;
+  }
+  return true;
+};
+
+hashtagInput.addEventListener('input', resetValidationMessage);
+
+var checkHashTagsValidity = function (value) {
+  if (!value) {
+    return true;
+  }
+  var hashtags = value.split(' ');
+  var result = [];
+  for (var i = 0; i < hashtags.length; i++) {
+    var hashtag = hashtags[i];
+    if (/^#{1}/.test(hashtag) && hashtag.length > 1) {
+      result.push(hashtag.toLowerCase());
+    } else {
+      hashtagInput.setCustomValidity('Не валидный хэштэг!');
+      return false;
+    }
+  }
+  return validateHashtags(result);
+};
+
+var onSubmitCheck = function (evt) {
+  if (!checkHashTagsValidity(hashtagInput.value)) {
+    evt.preventDefault();
+  }
+};
+
+uploadForm.addEventListener('submit', onSubmitCheck);
+
+uploadFile.addEventListener('change', openUploadForm);
 
 var createEffect = function () {
   imgUploadResizeInput.style = 'z-index: 1';
