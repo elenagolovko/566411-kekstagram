@@ -2,8 +2,8 @@
 
 var ESC_KEYCODE = 27;
 var PICTURES_SIZE = 25;
-var HASHTAGS_NUMBER = 5;
-var HASHTAGS_LENGTH = 20;
+var MAX_HASHTAGS_NUMBER = 5;
+var MAX_HASHTAGS_LENGTH = 20;
 var COMMENTS_ARR = ['Всё отлично!', 'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
@@ -190,7 +190,7 @@ var resetValidationMessage = function () {
 };
 
 var validateHashtags = function (array) {
-  if (array.length > HASHTAGS_NUMBER) {
+  if (array.length > MAX_HASHTAGS_NUMBER) {
     hashtagInput.setCustomValidity('Многовато хэштэгов!');
     return false;
   }
@@ -200,7 +200,7 @@ var validateHashtags = function (array) {
   for (var i = 0; i < array.length; i++) {
     var hashtag = array[i];
 
-    if (hashtag.length > HASHTAGS_LENGTH) {
+    if (hashtag.length > MAX_HASHTAGS_LENGTH) {
       hashtagInput.setCustomValidity('Слишком много символов в хэштэге!');
       return false;
     }
