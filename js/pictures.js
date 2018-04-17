@@ -187,47 +187,53 @@ var resetValidationMessage = function () {
   hashtagInput.setCustomValidity('');
 };
 
-var findSimilar = function (array) {
+var validateHashtags = function (array) {
+  if (array.length > 5) {
+    hashtagInput.setCustomValidity('Многовато хэштэгов!');
+    return false;
+  }
+
   var hashtagsObj = {};
+
   for (var i = 0; i < array.length; i++) {
     var hashtag = array[i];
-    if (hashtag.length > 20) {
-      hashtagInput.setCustomValidity('Слишком много символов в хэштэге!');
-      return false;
-    }
+
     if (hashtagsObj[hashtag]) {
       hashtagInput.setCustomValidity('Этот хэхштэг ты уже использовал!');
       return false;
     }
     hashtagsObj[hashtag] = true;
+
+    if (hashtag.length > 20) {
+      hashtagInput.setCustomValidity('Слишком много символов в хэштэге!');
+      return false;
+    }
   }
-  if (Object.keys(hashtagsObj).length <= 5) {
-    return Object.keys(hashtagsObj);
-  } else {
-    hashtagInput.setCustomValidity('Многовато хэштэгов!');
-    return false;
-  }
+  return true;
 };
 
 hashtagInput.addEventListener('input', resetValidationMessage);
 
-var checkHashtagInput = function (value) {
-  if (value === '') {
+var checkHashTagsValidity = function (value) {
+  if (!value) {
     return true;
   }
   var hashtags = value.split(' ');
   var result = [];
   hashtags.forEach(function (hashtag) {
-    if (!/^#{1}\w+/.test(hashtag)) {
-      return;
+    // слууууушай, а ничего что только латиница пройдет проверку?
+    if (/^#{1}\w+$/.test(hashtag)) {
+      result.push(hashtag.toLowerCase());
+      return validateHashtags(result);
+    } else {
+      return false;
     }
-    result.push(hashtag.toLowerCase());
   });
-  return findSimilar(result);
 };
 
 var onSubmitCheck = function (evt) {
-  if (!checkHashtagInput(hashtagInput.value)) {
+  console.log(checkHashTagsValidity(hashtagInput.value));
+  if (!checkHashTagsValidity(hashtagInput.value)) {
     evt.preventDefault();
   }
   // Первый раз не срабатывает почему то
