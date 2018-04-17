@@ -198,16 +198,16 @@ var validateHashtags = function (array) {
   for (var i = 0; i < array.length; i++) {
     var hashtag = array[i];
 
-    if (hashtagsObj[hashtag]) {
-      hashtagInput.setCustomValidity('Этот хэхштэг ты уже использовал!');
-      return false;
-    }
-    hashtagsObj[hashtag] = true;
-
     if (hashtag.length > 20) {
       hashtagInput.setCustomValidity('Слишком много символов в хэштэге!');
       return false;
     }
+
+    if (hashtagsObj[hashtag]) {
+      hashtagInput.setCustomValidity('Этот хэштэг уже использован!');
+      return false;
+    }
+    hashtagsObj[hashtag] = true;
   }
   return true;
 };
@@ -220,19 +220,20 @@ var checkHashTagsValidity = function (value) {
   }
   var hashtags = value.split(' ');
   var result = [];
-  hashtags.forEach(function (hashtag) {
-    // слууууушай, а ничего что только латиница пройдет проверку?
-    if (/^#{1}\w+$/.test(hashtag)) {
+  for (var i = 0; i < hashtags.length; i++) {
+    var hashtag = hashtags[i];
+    if (/^#{1}/.test(hashtag) && hashtag.length > 1) {
       result.push(hashtag.toLowerCase());
-      return validateHashtags(result);
     } else {
+      hashtagInput.setCustomValidity('Не валидный хэштэг!');
       return false;
+      break;
     }
-  });
+  }
+  return validateHashtags(result);
 };
 
 var onSubmitCheck = function (evt) {
-  console.log(checkHashTagsValidity(hashtagInput.value));
   if (!checkHashTagsValidity(hashtagInput.value)) {
     evt.preventDefault();
   }
@@ -241,9 +242,7 @@ var onSubmitCheck = function (evt) {
 
 uploadForm.addEventListener('submit', onSubmitCheck);
 
-uploadFile.addEventListener('change', function () {
-  openUploadForm();
-});
+uploadFile.addEventListener('change', openUploadForm);
 
 var createEffect = function () {
   imgUploadResizeInput.style = 'z-index: 1';
