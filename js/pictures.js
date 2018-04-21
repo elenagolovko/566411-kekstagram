@@ -189,6 +189,7 @@ var openUploadForm = function () {
   uploadImgOverlay.classList.remove('hidden');
   closeUploadBtn.addEventListener('click', hideUploadForm);
   document.addEventListener('keydown', onOverlayEscPress);
+  resetEffect();
 };
 
 var setScaleEffect = function () {
