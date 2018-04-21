@@ -34,6 +34,7 @@ var scaleBox = uploadImgOverlay.querySelector('.scale__line');
 var scalePin = uploadImgOverlay.querySelector('.scale__pin');
 var scaleLev = uploadImgOverlay.querySelector('.scale__level');
 var effectLevel = uploadImgOverlay.querySelector('[name="effect-level"]');
+var scaleSlider = uploadImgOverlay.querySelector('.img-upload__scale');
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -173,6 +174,7 @@ var onOverlayEscPress = function (evt) {
 
 var resetEffect = function () {
   imgUploadPreview.style = 'filter: none';
+  scaleSlider.setAttribute('style', 'z-index: -1');
 };
 
 var hideUploadForm = function () {
@@ -206,12 +208,17 @@ var setScaleEffect = function () {
       imgUploadPreview.style = 'filter: invert(' + effectLevel.value * 100 + '%' + ')';
       break;
     case 'effect-phobos':
-      imgUploadPreview.style = 'filter: blur(' + effectLevel.value * 30 + 'px' + ')';
+      imgUploadPreview.style = 'filter: blur(' + effectLevel.value * 3 + 'px' + ')';
       break;
     case 'effect-heat':
       imgUploadPreview.style = 'filter: brightness(' + (effectLevel.value * 2 + 1) + ')';
       break;
   }
+};
+
+var changeValueBar = function (param) {
+  scalePin.style.left = param + 'px';
+  scaleLev.style.width = param + 'px';
 };
 
 scalePin.addEventListener('mousedown', function (evt) {
@@ -234,8 +241,7 @@ scalePin.addEventListener('mousedown', function (evt) {
     if (newCoord > scaleBox.offsetWidth || newCoord < 0) {
       return;
     }
-    scalePin.style.left = newCoord + 'px';
-    scaleLev.style.width = newCoord + 'px';
+    changeValueBar(newCoord);
     effectLevel.value = scaleLev.offsetWidth / scaleBox.offsetWidth;
     setScaleEffect();
   };
@@ -310,33 +316,15 @@ uploadForm.addEventListener('submit', onSubmitCheck);
 
 uploadFile.addEventListener('change', openUploadForm);
 
-var setPreviewEffect = function (evt) {
-  switch (evt.target.id) {
-    case 'effect-none':
-      resetEffect();
-      break;
-    case 'effect-chrome':
-      imgUploadPreview.style = 'filter: grayscale(' + effectLevel.value + ')';
-      break;
-    case 'effect-sepia':
-      imgUploadPreview.style = 'filter: sepia(' + effectLevel.value + ')';
-      break;
-    case 'effect-marvin':
-      imgUploadPreview.style = 'filter: invert(' + effectLevel.value * 100 + ')';
-      break;
-    case 'effect-phobos':
-      imgUploadPreview.style = 'filter: blur(' + effectLevel.value * 3 + ')';
-      break;
-    case 'effect-heat':
-      imgUploadPreview.style = 'filter: brightness(' + (effectLevel.value * 2 + 1) + ')';
-      break;
-  }
-};
-
 var createEffect = function () {
   imgUploadResizeInput.style = 'z-index: 1';
   for (var i = 0; i < effectsItem.length; i++) {
-    effectsItem[i].addEventListener('click', setPreviewEffect);
+    effectsItem[i].addEventListener('click', function () {
+      scaleSlider.removeAttribute('style', 'z-index: -1');
+      effectLevel.value = 1;
+      changeValueBar(scaleBox.offsetWidth);
+    });
+    effectsItem[i].addEventListener('click', setScaleEffect);
   }
 };
 
