@@ -374,7 +374,6 @@ var createEffect = function () {
   imgUploadResizeInput.style = 'z-index: 1';
   for (var i = 0; i < effectsItem.length; i++) {
     effectsItem[i].addEventListener('click', function () {
-      // evt.stopPropagation();
       scaleSlider.removeAttribute('style', 'display: none');
       effectLevel.value = MAX_EFFECT_VALUE;
       effectLevel.setAttribute('value', effectLevel.value);
