@@ -31,6 +31,7 @@ var loadMeMore = document.querySelector('.social__comment-loadmore');
 var uploadFile = document.querySelector('#upload-file');
 var uploadImgOverlay = document.querySelector('.img-upload__overlay');
 var imgUploadPreview = uploadImgOverlay.querySelector('.img-upload__preview');
+var imgUpload = uploadImgOverlay.querySelector('.img-upload__preview img');
 var closeUploadBtn = uploadImgOverlay.querySelector('.cancel');
 var closeBigPicture = bigPicture.querySelector('.cancel');
 var effectsItem = document.querySelectorAll('.effects__item');
@@ -121,31 +122,31 @@ var changeSize = function (evt) {
     case RESIZE_MAX:
       if (change === 'min') {
         resizeValue.value = RESIZE_THREE_QUATERS;
-        imgUploadPreview.setAttribute('style', 'transform: scale(0.75)');
+        imgUpload.setAttribute('style', 'transform: scale(0.75)');
       }
       break;
     case RESIZE_THREE_QUATERS:
       if (change === 'min') {
         resizeValue.value = RESIZE_HALF;
-        imgUploadPreview.setAttribute('style', 'transform: scale(0.5)');
+        imgUpload.setAttribute('style', 'transform: scale(0.5)');
         break;
       }
       resizeValue.value = RESIZE_MAX;
-      imgUploadPreview.setAttribute('style', 'transform: scale(1)');
+      imgUpload.setAttribute('style', 'transform: scale(1)');
       break;
     case RESIZE_HALF:
       if (change === 'min') {
         resizeValue.value = RESIZE_MIN;
-        imgUploadPreview.setAttribute('style', 'transform: scale(0.25)');
+        imgUpload.setAttribute('style', 'transform: scale(0.25)');
         break;
       }
       resizeValue.value = RESIZE_THREE_QUATERS;
-      imgUploadPreview.setAttribute('style', 'transform: scale(0.75)');
+      imgUpload.setAttribute('style', 'transform: scale(0.75)');
       break;
     case RESIZE_MIN:
       if (change === 'max') {
         resizeValue.value = RESIZE_HALF;
-        imgUploadPreview.setAttribute('style', 'transform: scale(0.5)');
+        imgUpload.setAttribute('style', 'transform: scale(0.5)');
       }
       break;
   }
@@ -373,12 +374,13 @@ var createEffect = function () {
   imgUploadResizeInput.style = 'z-index: 1';
   for (var i = 0; i < effectsItem.length; i++) {
     effectsItem[i].addEventListener('click', function (evt) {
-      evt.stopPropagation();
+      // evt.stopPropagation();
       scaleSlider.removeAttribute('style', 'display: none');
       effectLevel.value = MAX_EFFECT_VALUE;
       effectLevel.setAttribute('value', effectLevel.value);
       resizeValue.value = RESIZE_MAX;
       resizeValue.setAttribute('value', RESIZE_MAX);
+      imgUpload.setAttribute('style', 'transform: scale(1)');
       changeValueBar(scaleBox.offsetWidth);
     });
     effectsItem[i].addEventListener('click', setScaleEffect);
