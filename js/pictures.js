@@ -373,7 +373,7 @@ uploadFile.addEventListener('change', openUploadForm);
 var createEffect = function () {
   imgUploadResizeInput.style = 'z-index: 1';
   for (var i = 0; i < effectsItem.length; i++) {
-    effectsItem[i].addEventListener('click', function (evt) {
+    effectsItem[i].addEventListener('click', function () {
       // evt.stopPropagation();
       scaleSlider.removeAttribute('style', 'display: none');
       effectLevel.value = MAX_EFFECT_VALUE;
@@ -385,8 +385,8 @@ var createEffect = function () {
     });
     effectsItem[i].addEventListener('click', setScaleEffect);
   }
-  for (var i = 0; i < resizeButtons.length; i++) {
-    var resizeButton = resizeButtons[i];
+  for (var j = 0; j < resizeButtons.length; j++) {
+    var resizeButton = resizeButtons[j];
     resizeButton.addEventListener('click', changeSize);
   }
 };
