@@ -16,7 +16,7 @@
     return pictureElement;
   };
 
-  window.createPicturesFragment = function (pictures) {
+  var createPicturesFragment = function (pictures) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < pictures.length; i++) {
@@ -24,4 +24,6 @@
     }
     picturesList.appendChild(fragment);
   };
+
+  window.createPicturesFragment = createPicturesFragment;
 })();

@@ -241,6 +241,8 @@
   var resetEffect = function () {
     imgUploadPreview.style = 'filter: none';
     scaleSlider.setAttribute('style', 'display: none');
+    imgUpload.setAttribute('style', 'transform: scale(1)');
+    resizeValue.value = RESIZE_MAX;
   };
 
   createEffect();
