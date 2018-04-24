@@ -24,13 +24,13 @@
   };
 
   var initComments = function (text) {
-    var img = data.makeElement('img', 'social__picture');
-    img.src = 'img/avatar-' + data.getRandomInt(1, 6) + '.svg';
+    var img = window.data.makeElement('img', 'social__picture');
+    img.src = 'img/avatar-' + window.data.getRandomInt(1, 6) + '.svg';
     img.alt = 'Аватар комментатора фотографии';
     img.width = '35';
     img.height = '35';
 
-    var comment = data.makeElement('li', ['social__comment', 'social__comment--text']);
+    var comment = window.data.makeElement('li', ['social__comment', 'social__comment--text']);
     comment.appendChild(img);
     comment.appendChild(document.createTextNode(text));
 
@@ -44,7 +44,7 @@
       bigPicture.querySelector('.likes-count').textContent = picture.likes;
       bigPicture.querySelector('.comments-count').textContent = picture.comments;
       for (var i = 0; i < picture.comments; i++) {
-        var bigPictureComments = initComments(data.COMMENTS_ARR[data.getRandomInt(0, data.COMMENTS_ARR.length - 1)]);
+        var bigPictureComments = initComments(window.data.COMMENTS_ARR[window.data.getRandomInt(0, window.data.COMMENTS_ARR.length - 1)]);
         commentsList.appendChild(bigPictureComments);
       }
     },
@@ -55,4 +55,4 @@
       document.addEventListener('keydown', onBigPictureEscPress);
     }
   };
-}) ();
+})();

@@ -24,4 +24,4 @@
     }
     picturesList.appendChild(fragment);
   };
-}) ();
+})();

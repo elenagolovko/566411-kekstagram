@@ -33,4 +33,4 @@
     hideCountAndLoad();
   };
   initPictures();
-}) ();
+})();
