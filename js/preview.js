@@ -41,9 +41,9 @@
     resetComments();
     bigPicture.querySelector('.big-picture__img img').src = picture.url;
     bigPicture.querySelector('.likes-count').textContent = picture.likes;
-    bigPicture.querySelector('.comments-count').textContent = picture.comments;
-    for (var i = 0; i < picture.comments; i++) {
-      var bigPictureComments = initComments(window.data.COMMENTS_ARR[window.data.getRandomInt(0, window.data.COMMENTS_ARR.length - 1)]);
+    bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+    for (var j = 0; j < picture.comments.length; j++) {
+      var bigPictureComments = initComments(picture.comments[j]);
       commentsList.appendChild(bigPictureComments);
     }
   };

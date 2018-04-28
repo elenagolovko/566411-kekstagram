@@ -26,11 +26,7 @@
     }
   };
 
-  var initPictures = function () {
-    var picturesData = window.data.generatePicturesData(PICTURES_SIZE);
-    window.createPicturesFragment(picturesData);
-    initBigPicture(picturesData);
-    hideCountAndLoad();
-  };
-  initPictures();
+  hideCountAndLoad();
+
+  window.initBigPicture = initBigPicture;
 })();

@@ -210,6 +210,15 @@
 
   uploadForm.addEventListener('submit', onSubmitCheck);
 
+  var hideFormOnSuccess = function () {
+    uploadForm.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+      window.backend.save(new FormData(uploadForm), function () {
+        hideUploadForm();
+      }, window.errorHandler);
+    });
+  };
+
   uploadFile.addEventListener('change', openUploadForm);
 
   var createEffect = function () {
@@ -247,4 +256,5 @@
 
   createEffect();
 
+  window.hideFormOnSuccess = hideFormOnSuccess;
 })();
