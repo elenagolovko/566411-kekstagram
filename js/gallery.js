@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var PICTURES_SIZE = 25;
   var commentCount = document.querySelector('.social__comment-count');
   var loadMeMore = document.querySelector('.social__comment-loadmore');
 
