@@ -37,9 +37,7 @@
     picturesList.appendChild(fragment);
 
     window.initBigPicture(pictures);
-    window.hideFormOnSuccess();
   };
 
   window.backend.load(successHandler, errorHandler);
-  window.errorHandler = errorHandler;
 })();

@@ -202,20 +202,16 @@
     return validateHashtags(result);
   };
 
-  var onSubmitCheck = function (evt) {
-    if (!checkHashTagsValidity(hashtagInput.value)) {
-      evt.preventDefault();
-    }
-  };
-
-  uploadForm.addEventListener('submit', onSubmitCheck);
-
   var hideFormOnSuccess = function () {
     uploadForm.addEventListener('submit', function (evt) {
       evt.preventDefault();
-      window.backend.save(new FormData(uploadForm), function () {
-        hideUploadForm();
-      }, window.errorHandler);
+      if (checkHashTagsValidity(hashtagInput.value)) {
+        window.backend.save(new FormData(uploadForm), function () {
+          hideUploadForm();
+        }, function () {
+          document.querySelector('.img-upload__message--error').classList.remove('hidden');
+        });
+      }
     });
   };
 
@@ -255,6 +251,5 @@
   };
 
   createEffect();
-
-  window.hideFormOnSuccess = hideFormOnSuccess;
+  hideFormOnSuccess();
 })();
