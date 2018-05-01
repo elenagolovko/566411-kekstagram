@@ -3,8 +3,8 @@
 (function () {
   var PICTURES_LIST_SIZE = 25;
   var picturesTemplate = document.querySelector('#picture')
-  .content
-  .querySelector('.picture__link');
+      .content
+      .querySelector('.picture__link');
   var picturesList = document.querySelector('.pictures');
 
   var renderPictures = function (picture) {

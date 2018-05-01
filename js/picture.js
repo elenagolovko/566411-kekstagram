@@ -4,6 +4,7 @@
   var DEBOUNCE_INTERVAL = 300;
   var lastTimeout;
   var pictures = [];
+  var firstVersionPictures;
   var filter = document.querySelector('.img-filters');
 
   var filterPopular = function () {
@@ -44,7 +45,7 @@
 
   var successHandler = function (data) {
     pictures = data;
-    window.firstVersionPictures = pictures.slice();
+    firstVersionPictures = pictures.slice();
     window.initBigPicture(pictures);
     debounce(filterPictures);
     // clearPictures();
