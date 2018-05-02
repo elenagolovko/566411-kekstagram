@@ -1,11 +1,10 @@
 'use strict';
 
 (function () {
-  var DEBOUNCE_INTERVAL = 300;
-  var lastTimeout;
   var pictures = [];
   var firstVersionPictures;
-  var filter = document.querySelector('.img-filters');
+  var imageFilters = document.querySelector('.img-filters');
+  var filterButtons = document.querySelectorAll('.img-filters__button');
 
   var filterPopular = function () {
     window.render(pictures.sort(function (first, second) {
@@ -48,51 +47,47 @@
     pictures = data;
     firstVersionPictures = pictures.slice();
     rewriteAfterFilter(filterRecommended, pictures);
-    debounce(filterPictures);
+    // debounce(filterPictures);
+    filterPictures();
   };
 
   window.backend.load(successHandler, errorHandler);
-
-  var debounce = function (fun) {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
-  };
 
   var rewriteAfterFilter = function (filter, pictures, clear) {
     if (clear) {
       clearPictures();
     }
-    filter();
+    window.debounce(filter);
+    // filter();
     window.initBigPicture(pictures);
   };
 
-  var filterPictures = function () {
-    filter.classList.remove('img-filters--inactive');
+  var filterOnClick = function (evt) {
+    filterButtons.forEach(function (button) {
+      button.classList.remove('img-filters__button--active');
+    });
+    evt.target.classList.add('img-filters__button--active');
+    evt.preventDefault();
+    switch (evt.target.id) {
+      case 'filter-popular':
+        rewriteAfterFilter(filterPopular, pictures, true);
+        break;
+      case 'filter-discussed':
+        rewriteAfterFilter(filterDiscussed, pictures, true);
+        break;
+      case 'filter-new':
+        rewriteAfterFilter(filterRecommended, firstVersionPictures, true);
+        break;
+    }
+  };
 
-    var filterButtons = document.querySelectorAll('.img-filters__button');
+  var filterPictures = function () {
+    imageFilters.classList.remove('img-filters--inactive');
+
     filterButtons[0].classList.remove('img-filters__button--active');
 
     for (var i = 0; i < filterButtons.length; i++) {
-      filterButtons[i].addEventListener('click', function (evt) {
-        filterButtons.forEach(function (button) {
-          button.classList.remove('img-filters__button--active');
-        });
-        evt.target.classList.add('img-filters__button--active');
-        evt.preventDefault();
-        switch (evt.target.id) {
-          case 'filter-popular':
-            rewriteAfterFilter(filterPopular, pictures, true);
-            break;
-          case 'filter-discussed':
-            rewriteAfterFilter(filterDiscussed, pictures, true);
-            break;
-          case 'filter-new':
-            rewriteAfterFilter(filterRecommended, firstVersionPictures, true);
-            break;
-        }
-      });
+      filterButtons[i].addEventListener('click', filterOnClick);
     }
   };
 })();
