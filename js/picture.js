@@ -18,7 +18,7 @@
     }));
   };
 
-  var filterRecommended = function () {
+  var filterNew = function () {
     window.render(firstVersionPictures);
   };
 
@@ -46,7 +46,7 @@
     data.pop();
     pictures = data;
     firstVersionPictures = pictures.slice();
-    rewriteAfterFilter(filterRecommended, pictures);
+    rewriteAfterFilter(filterNew, pictures);
     // debounce(filterPictures);
     filterPictures();
   };
@@ -76,7 +76,7 @@
         rewriteAfterFilter(filterDiscussed, pictures, true);
         break;
       case 'filter-new':
-        rewriteAfterFilter(filterRecommended, firstVersionPictures, true);
+        rewriteAfterFilter(filterNew, firstVersionPictures, true);
         break;
     }
   };
