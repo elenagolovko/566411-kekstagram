@@ -53,13 +53,13 @@
 
   window.backend.load(successHandler, errorHandler);
 
-  var rewriteAfterFilter = function (filter, pictures, clear) {
+  var rewriteAfterFilter = function (filter, filteredPictures, clear) {
     if (clear) {
       clearPictures();
     }
     window.debounce(filter);
     // filter();
-    window.initBigPicture(pictures);
+    window.initBigPicture(filteredPictures);
   };
 
   var filterOnClick = function (evt) {
