@@ -44,11 +44,11 @@
   };
 
   var successHandler = function (data) {
+    data.pop();
     pictures = data;
     firstVersionPictures = pictures.slice();
-    window.initBigPicture(pictures);
+    rewriteAfterFilter(filterRecommended, pictures);
     debounce(filterPictures);
-    // clearPictures();
   };
 
   window.backend.load(successHandler, errorHandler);
@@ -58,6 +58,14 @@
       window.clearTimeout(lastTimeout);
     }
     lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+  };
+
+  var rewriteAfterFilter = function (filter, pictures, clear) {
+    if (clear) {
+      clearPictures();
+    }
+    filter();
+    window.initBigPicture(pictures);
   };
 
   var filterPictures = function () {
@@ -75,16 +83,13 @@
         evt.preventDefault();
         switch (evt.target.id) {
           case 'filter-popular':
-            clearPictures();
-            filterPopular();
+            rewriteAfterFilter(filterPopular, pictures, true);
             break;
           case 'filter-discussed':
-            clearPictures();
-            filterDiscussed();
+            rewriteAfterFilter(filterDiscussed, pictures, true);
             break;
           case 'filter-new':
-            clearPictures();
-            filterRecommended();
+            rewriteAfterFilter(filterRecommended, firstVersionPictures, true);
             break;
         }
       });

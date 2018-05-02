@@ -20,7 +20,6 @@
   var render = function (data) {
     var takeNumber = data.length > PICTURES_LIST_SIZE ? PICTURES_LIST_SIZE : data.length;
     var fragment = document.createDocumentFragment();
-
     for (var i = 0; i < takeNumber; i++) {
       fragment.appendChild(renderPictures(data[i]));
     }
