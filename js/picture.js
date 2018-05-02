@@ -7,19 +7,28 @@
   var filterButtons = document.querySelectorAll('.img-filters__button');
 
   var filterPopular = function () {
-    window.render(pictures.sort(function (first, second) {
-      return second.likes - first.likes;
-    }));
+    window.debounce(function () {
+      window.render(pictures.sort(function (first, second) {
+        return second.likes - first.likes;
+      }));
+      window.initBigPicture(pictures);
+    });
   };
 
   var filterDiscussed = function () {
-    window.render(pictures.sort(function (first, second) {
-      return second.comments.length - first.comments.length;
-    }));
+    window.debounce(function () {
+      window.render(pictures.sort(function (first, second) {
+        return second.comments.length - first.comments.length;
+      }));
+      window.initBigPicture(pictures);
+    });
   };
 
   var filterNew = function () {
-    window.render(firstVersionPictures);
+    window.debounce(function () {
+      window.render(firstVersionPictures);
+      window.initBigPicture(firstVersionPictures);
+    });
   };
 
   var clearPictures = function () {
@@ -47,7 +56,6 @@
     pictures = data;
     firstVersionPictures = pictures.slice();
     rewriteAfterFilter(filterNew, pictures);
-    // debounce(filterPictures);
     filterPictures();
   };
 
@@ -57,9 +65,7 @@
     if (clear) {
       clearPictures();
     }
-    window.debounce(filter);
-    // filter();
-    window.initBigPicture(filteredPictures);
+    filter();
   };
 
   var filterOnClick = function (evt) {
