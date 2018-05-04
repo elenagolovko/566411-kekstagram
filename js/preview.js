@@ -42,6 +42,7 @@
     bigPicture.querySelector('.big-picture__img img').src = picture.url;
     bigPicture.querySelector('.likes-count').textContent = picture.likes;
     bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+    bigPicture.querySelector('.social__caption').textContent = picture.comments[0];
     for (var j = 0; j < picture.comments.length; j++) {
       var bigPictureComments = initComments(picture.comments[j]);
       commentsList.appendChild(bigPictureComments);
