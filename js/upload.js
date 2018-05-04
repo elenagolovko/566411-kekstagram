@@ -15,14 +15,18 @@
       return fileName.endsWith(it);
     });
 
+    var setPreviewBackground = function (value) {
+      effectsPreview.forEach(function (effectPreview) {
+        effectPreview.style = 'background-image: url(' + value + ');';
+      });
+    };
+
     if (matches) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
         preview.src = reader.result;
-        effectsPreview.forEach(function (effectPreview) {
-          effectPreview.style = 'background-image: url(' + reader.result + ');';
-        });
+        setPreviewBackground(reader.result);
       });
 
       reader.readAsDataURL(file);
