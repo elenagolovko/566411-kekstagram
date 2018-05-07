@@ -11,7 +11,7 @@
       window.render(pictures.sort(function (first, second) {
         return second.likes - first.likes;
       }));
-      window.initBigPicture(pictures);
+      window.gallery.initBigPicture(pictures);
     });
   };
 
@@ -20,14 +20,14 @@
       window.render(pictures.sort(function (first, second) {
         return second.comments.length - first.comments.length;
       }));
-      window.initBigPicture(pictures);
+      window.gallery.initBigPicture(pictures);
     });
   };
 
   var filterNew = function () {
     window.debounce(function () {
       window.render(firstVersionPictures);
-      window.initBigPicture(firstVersionPictures);
+      window.gallery.initBigPicture(firstVersionPictures);
     });
   };
 
@@ -57,6 +57,7 @@
     firstVersionPictures = pictures.slice();
     rewriteAfterFilter(filterNew, pictures);
     filterPictures();
+    window.gallery.pictureOnEnterPress(firstVersionPictures);
   };
 
   window.backend.load(successHandler, errorHandler);
@@ -96,4 +97,6 @@
       filterButtons[i].addEventListener('click', filterOnClick);
     }
   };
+
+  window.firstVersionPictures = firstVersionPictures;
 })();

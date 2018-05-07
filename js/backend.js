@@ -1,8 +1,12 @@
 'use strict';
 
 (function () {
+  var SUCCESS_RESPONSE = 200;
+  var TIMEOUT = 10000;
+  var MILISECONDS_TO_SECONDS = 1000;
+
   var checkStatus = function (xhr, onLoad, onError) {
-    if (xhr.status === 200) {
+    if (xhr.status === SUCCESS_RESPONSE) {
       onLoad(xhr.response);
     } else {
       onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -14,7 +18,7 @@
       onError('Произошла ошибка!');
     });
     xhr.addEventListener('timeout', function () {
-      onError('Превышено время ожидания в ' + xhr.timeout / 1000 + ' сек');
+      onError('Превышено время ожидания в ' + xhr.timeout / MILISECONDS_TO_SECONDS + ' сек');
     });
   };
 
@@ -29,7 +33,7 @@
     });
     createErrorMessage(xhr, onLoad, onError);
 
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT;
 
     xhr.open('GET', URL);
     xhr.send();
@@ -46,7 +50,7 @@
     });
     createErrorMessage(xhr, onError);
 
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT;
 
     xhr.open('POST', URL);
     xhr.send(data);
