@@ -22,6 +22,7 @@
   var resizeValue = imgUploadResizeInput.querySelector('.resize__control--value');
   var resizeButtons = imgUploadResizeInput.querySelectorAll('.resize__control');
   var hashtagInput = document.querySelector('.text__hashtags');
+  var descriptionText = document.querySelector('.text__description');
   var uploadForm = document.querySelector('.img-upload__form');
   var scaleBox = uploadImgOverlay.querySelector('.scale__line');
   var scalePin = uploadImgOverlay.querySelector('.scale__pin');
@@ -248,6 +249,8 @@
     scaleSlider.setAttribute('style', 'display: none');
     imgUpload.setAttribute('style', 'transform: scale(1)');
     resizeValue.value = RESIZE_MAX;
+    hashtagInput.value = '';
+    descriptionText.value = '';
   };
 
   createEffect();
