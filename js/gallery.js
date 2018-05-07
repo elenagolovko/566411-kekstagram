@@ -12,13 +12,14 @@
 
   var pictureOnEnterPress = function (pictures) {
     var showRightPicture = function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.value === "picture__link") {
+      if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.value === 'picture__link') {
         var pictureSrc = evt.target.children[0].src;
         var pictureIndex = pictureSrc.match(/photos\/\d+/)[0].split('/')[1];
         window.preview.initBigPictureData(pictures[pictureIndex - 1]);
         window.preview.openBigPicture();
       }
-    }
+    };
+
     document.addEventListener('keydown', showRightPicture);
   };
 
