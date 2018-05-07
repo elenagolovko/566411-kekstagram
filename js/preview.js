@@ -2,6 +2,7 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
   var COMMENTS_COUNT = 5;
   var FIRST_AVATAR = 1;
   var LAST_AVATAR = 6;
@@ -49,7 +50,7 @@
     return comment;
   };
 
-  var setRightCommentsNumber = function (allComments) {
+  var setRightCommentsNumber = function () {
     var commentsCountElement = bigPicture.querySelector('.social__comment-count');
     var changeCountValue = commentsCountElement.childNodes[0];
     changeCountValue.nodeValue = commentsList.children.length + ' из ';
@@ -64,7 +65,6 @@
   };
 
   var addMoreComments = function (allComments) {
-    var commentsNumber = allComments.length;
     if (allComments.length <= COMMENTS_COUNT) {
       hideLoad();
       createComments(allComments);
@@ -76,7 +76,7 @@
     allComments = allComments.slice(COMMENTS_COUNT);
     createComments(newFiveComments);
 
-    loadMeMore.addEventListener('click', function () {
+    var handleComments = function () {
       var takeNumber = allComments.length > COMMENTS_COUNT ? COMMENTS_COUNT : allComments.length;
       newFiveComments = allComments.slice(0, takeNumber);
       allComments = allComments.slice(COMMENTS_COUNT);
@@ -87,6 +87,14 @@
       if (commentsList.children.length.toString() === bigPicture.querySelector('.comments-count').textContent) {
         hideLoad();
         return;
+      }
+    };
+
+    loadMeMore.addEventListener('click', handleComments);
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.value === 'social__comment-loadmore') {
+        handleComments();
       }
     });
   };
