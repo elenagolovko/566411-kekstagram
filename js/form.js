@@ -30,7 +30,7 @@
   var effectLevel = uploadImgOverlay.querySelector('[name="effect-level"]');
   var scaleSlider = uploadImgOverlay.querySelector('.img-upload__scale');
 
-  var hideUploadForm = function () {
+  var onHideUploadForm = function () {
     uploadFile.value = '';
     uploadImgOverlay.classList.add('hidden');
     closeUploadBtn.removeEventListener('click', hideUploadForm);
@@ -38,15 +38,15 @@
     resetEffect();
   };
 
-  var openUploadForm = function () {
+  var onOpenUploadForm = function () {
     uploadImgOverlay.classList.remove('hidden');
-    closeUploadBtn.addEventListener('click', hideUploadForm);
+    closeUploadBtn.addEventListener('click', onHideUploadForm);
     document.addEventListener('keydown', onOverlayEscPress);
     resizeValue.setAttribute('value', RESIZE_MAX);
     resetEffect();
   };
 
-  var setScaleEffect = function () {
+  var onSetScaleEffect = function () {
     var currentEffect = document.querySelector('.effects__radio:checked');
 
     switch (currentEffect.id) {
@@ -71,7 +71,7 @@
     }
   };
 
-  var changeSize = function (evt) {
+  var onClickChangeSize = function (evt) {
     var change = 'max';
     if (evt.target.classList.contains('resize__control--minus')) {
       change = 'min';
@@ -154,7 +154,7 @@
   });
 
 
-  var resetValidationMessage = function () {
+  var onResetValidationMessage = function () {
     hashtagInput.setCustomValidity('');
   };
 
@@ -183,7 +183,7 @@
     return true;
   };
 
-  hashtagInput.addEventListener('input', resetValidationMessage);
+  hashtagInput.addEventListener('input', onResetValidationMessage);
 
   var checkHashTagsValidity = function (value) {
     if (!value) {
@@ -216,7 +216,7 @@
     });
   };
 
-  uploadFile.addEventListener('change', openUploadForm);
+  uploadFile.addEventListener('change', onOpenUploadForm);
 
   var createEffect = function () {
     imgUploadResizeInput.style = 'z-index: 1';
@@ -230,11 +230,11 @@
         imgUpload.setAttribute('style', 'transform: scale(1)');
         changeValueBar(scaleBox.offsetWidth);
       });
-      effectsItem[i].addEventListener('click', setScaleEffect);
+      effectsItem[i].addEventListener('click',onSetScaleEffect);
     }
     for (var j = 0; j < resizeButtons.length; j++) {
       var resizeButton = resizeButtons[j];
-      resizeButton.addEventListener('click', changeSize);
+      resizeButton.addEventListener('click', onClickChangeSize);
     }
   };
 

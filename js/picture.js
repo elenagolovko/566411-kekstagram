@@ -69,7 +69,7 @@
     filter();
   };
 
-  var filterOnClick = function (evt) {
+  var onFilterClick = function (evt) {
     filterButtons.forEach(function (button) {
       button.classList.remove('img-filters__button--active');
     });
@@ -94,9 +94,7 @@
     filterButtons[0].classList.remove('img-filters__button--active');
 
     for (var i = 0; i < filterButtons.length; i++) {
-      filterButtons[i].addEventListener('click', filterOnClick);
+      filterButtons[i].addEventListener('click', onFilterClick);
     }
   };
-
-  window.firstVersionPictures = firstVersionPictures;
 })();

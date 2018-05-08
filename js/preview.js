@@ -4,8 +4,8 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   var COMMENTS_COUNT = 5;
-  var FIRST_AVATAR = 1;
-  var LAST_AVATAR = 6;
+  var AVATAR_MIN_NUM = 1;
+  var AVATAR_MAX_NUM = 6;
   var bigPicture = document.querySelector('.big-picture');
   var closeBigPicture = bigPicture.querySelector('.cancel');
   var commentsList = document.querySelector('.social__comments');
@@ -29,7 +29,7 @@
     commentsList.textContent = '';
   };
 
-  var hideBigPicture = function () {
+  var onHideBigPicture = function () {
     bigPicture.classList.add('hidden');
     closeBigPicture.removeEventListener('click', hideBigPicture);
     document.removeEventListener('keydown', onBigPictureEscPress);
@@ -38,7 +38,7 @@
 
   var initComments = function (text) {
     var img = window.data.makeElement('img', 'social__picture');
-    img.src = 'img/avatar-' + window.data.getRandomInt(FIRST_AVATAR, LAST_AVATAR) + '.svg';
+    img.src = 'img/avatar-' + window.data.getRandomInt(AVATAR_MIN_NUM, AVATAR_MAX_NUM) + '.svg';
     img.alt = 'Аватар комментатора фотографии';
     img.width = '35';
     img.height = '35';
@@ -76,7 +76,7 @@
     allComments = allComments.slice(COMMENTS_COUNT);
     createComments(newFiveComments);
 
-    var handleComments = function () {
+    var onCommentsHandle = function () {
       var takeNumber = allComments.length > COMMENTS_COUNT ? COMMENTS_COUNT : allComments.length;
       newFiveComments = allComments.slice(0, takeNumber);
       allComments = allComments.slice(COMMENTS_COUNT);
@@ -90,7 +90,7 @@
       }
     };
 
-    loadMeMore.addEventListener('click', handleComments);
+    loadMeMore.addEventListener('click', onCommentsHandle);
 
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.value === 'social__comment-loadmore') {
@@ -111,7 +111,7 @@
 
   var openBigPicture = function () {
     bigPicture.classList.remove('hidden');
-    closeBigPicture.addEventListener('click', hideBigPicture);
+    closeBigPicture.addEventListener('click', onHideBigPicture);
     document.addEventListener('keydown', onBigPictureEscPress);
   };
 
