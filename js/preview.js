@@ -21,7 +21,7 @@
 
   var onBigPictureEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      hideBigPicture();
+      onHideBigPicture();
     }
   };
 
@@ -31,7 +31,7 @@
 
   var onHideBigPicture = function () {
     bigPicture.classList.add('hidden');
-    closeBigPicture.removeEventListener('click', hideBigPicture);
+    closeBigPicture.removeEventListener('click', onHideBigPicture);
     document.removeEventListener('keydown', onBigPictureEscPress);
     resetComments();
   };
@@ -94,7 +94,7 @@
 
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.value === 'social__comment-loadmore') {
-        handleComments();
+        onCommentsHandle();
       }
     });
   };

@@ -33,7 +33,7 @@
   var onHideUploadForm = function () {
     uploadFile.value = '';
     uploadImgOverlay.classList.add('hidden');
-    closeUploadBtn.removeEventListener('click', hideUploadForm);
+    closeUploadBtn.removeEventListener('click', onHideUploadForm);
     document.removeEventListener('keydown', onOverlayEscPress);
     resetEffect();
   };
@@ -139,7 +139,7 @@
       changeValueBar(newCoord);
       effectLevel.value = (scaleLev.offsetWidth / scaleBox.offsetWidth) * PERCENT;
       effectLevel.setAttribute('value', effectLevel.value);
-      setScaleEffect();
+      onSetScaleEffect();
     };
 
     var onMouseUp = function (upEvt) {
@@ -208,7 +208,7 @@
       evt.preventDefault();
       if (checkHashTagsValidity(hashtagInput.value)) {
         window.backend.save(new FormData(uploadForm), function () {
-          hideUploadForm();
+          onHideUploadForm();
         }, function () {
           document.querySelector('.img-upload__message--error').classList.remove('hidden');
         });
@@ -230,7 +230,7 @@
         imgUpload.setAttribute('style', 'transform: scale(1)');
         changeValueBar(scaleBox.offsetWidth);
       });
-      effectsItem[i].addEventListener('click',onSetScaleEffect);
+      effectsItem[i].addEventListener('click', onSetScaleEffect);
     }
     for (var j = 0; j < resizeButtons.length; j++) {
       var resizeButton = resizeButtons[j];
@@ -240,7 +240,7 @@
 
   var onOverlayEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE && evt.target !== hashtagInput) {
-      hideUploadForm();
+      onHideUploadForm();
     }
   };
 

@@ -20,7 +20,7 @@
       }
     };
 
-    document.addEventListener('keydown',onShowRightPicture);
+    document.addEventListener('keydown', onShowRightPicture);
   };
 
   var initBigPicture = function (picturesData) {
