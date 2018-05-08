@@ -11,7 +11,7 @@
   };
 
   var pictureOnEnterPress = function (pictures) {
-    var showRightPicture = function (evt) {
+    var onShowRightPicture = function (evt) {
       if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.value === 'picture__link') {
         var pictureSrc = evt.target.children[0].src;
         var pictureIndex = pictureSrc.match(/photos\/\d+/)[0].split('/')[1];
@@ -20,7 +20,7 @@
       }
     };
 
-    document.addEventListener('keydown', showRightPicture);
+    document.addEventListener('keydown',onShowRightPicture);
   };
 
   var initBigPicture = function (picturesData) {

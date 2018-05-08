@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var SUCCESS_RESPONSE = 200;
+  var SUCCESS_STATUS = 200;
   var TIMEOUT = 10000;
   var MILISECONDS_TO_SECONDS = 1000;
 
   var checkStatus = function (xhr, onLoad, onError) {
-    if (xhr.status === SUCCESS_RESPONSE) {
+    if (xhr.status === SUCCESS_STATUS) {
       onLoad(xhr.response);
     } else {
       onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
