@@ -21,7 +21,7 @@
 
   var onBigPictureEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      onHideBigPicture();
+      onCloseBigPicture();
     }
   };
 
@@ -29,9 +29,9 @@
     commentsList.textContent = '';
   };
 
-  var onHideBigPicture = function () {
+  var onCloseBigPicture = function () {
     bigPicture.classList.add('hidden');
-    closeBigPicture.removeEventListener('click', onHideBigPicture);
+    closeBigPicture.removeEventListener('click', onCloseBigPicture);
     document.removeEventListener('keydown', onBigPictureEscPress);
     resetComments();
   };
@@ -76,7 +76,7 @@
     allComments = allComments.slice(COMMENTS_COUNT);
     createComments(newFiveComments);
 
-    var onCommentsHandle = function () {
+    var onLoadMoreClick = function () {
       var takeNumber = allComments.length > COMMENTS_COUNT ? COMMENTS_COUNT : allComments.length;
       newFiveComments = allComments.slice(0, takeNumber);
       allComments = allComments.slice(COMMENTS_COUNT);
@@ -90,11 +90,11 @@
       }
     };
 
-    loadMeMore.addEventListener('click', onCommentsHandle);
+    loadMeMore.addEventListener('click', onLoadMoreClick);
 
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ENTER_KEYCODE && evt.target.classList.value === 'social__comment-loadmore') {
-        onCommentsHandle();
+        onLoadMoreClick();
       }
     });
   };
@@ -111,7 +111,7 @@
 
   var openBigPicture = function () {
     bigPicture.classList.remove('hidden');
-    closeBigPicture.addEventListener('click', onHideBigPicture);
+    closeBigPicture.addEventListener('click', onCloseBigPicture);
     document.addEventListener('keydown', onBigPictureEscPress);
   };
 
